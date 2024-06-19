@@ -1,3 +1,7 @@
+This fork adds the FairSquare unqualified benchmarks to VeriFair
+
+---
+
 VeriFair
 =====
 

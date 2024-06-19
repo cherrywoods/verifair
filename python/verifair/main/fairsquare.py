@@ -4,7 +4,7 @@ from ..benchmarks.fairsquare.models import *
 from ..verify.verify import *
 from ..util.log import *
 
-def run_single(model, dist):
+def run_single(model, dist, is_qual):
     # Step 0: Verification parameters
     c = 0.15
     Delta = 0.0
@@ -15,7 +15,7 @@ def run_single(model, dist):
     log_iters = None
     
     # Step 1: Samplers
-    sample_fn = get_model(model, dist)
+    sample_fn = get_model(model, dist, is_qual)
     model0 = MultiSampler(RejectionSampler(sample_fn, False))
     model1 = MultiSampler(RejectionSampler(sample_fn, True))
 
@@ -46,9 +46,10 @@ def main():
 
     for model in models:
         for dist in dists:
-            log('Running model: {}, dist: {}'.format(model, dist), INFO)
-            run_single(model, dist)
-            log('', INFO)
+            for is_qual in [True, False]:
+                log('Running model: {}, dist: {}, is qual: {}'.format(model, dist, is_qual), INFO)
+                run_single(model, dist, is_qual)
+                log('', INFO)
 
 if __name__ == '__main__':
     main()
